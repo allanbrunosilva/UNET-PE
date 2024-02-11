@@ -9,7 +9,7 @@ CAD-PE/patient/image
 CAD-PE/patient/mask
 """
 
-def extract_cad_pe(main_path, cad_pe_path):
+def extract_cad_pe(main_path, cad_pe_path, n = None):
     i = 1
     for patient_image, patient_mask in zip(os.listdir(cad_pe_path+"/images"), os.listdir(cad_pe_path+"/rs")):
         image_input = cad_pe_path + '/images/' + patient_image
@@ -25,7 +25,7 @@ def extract_cad_pe(main_path, cad_pe_path):
         nrrd_extractor.extract(mask_input, mask_output)
 
         i+=1
-        if i>5:
+        if n != None and i>n:
             break
 
 def preprocess_cad_pe(main_path, cad_pe_path):
@@ -47,21 +47,21 @@ def preprocess_cad_pe(main_path, cad_pe_path):
             image_preprocessor.preprocess(mask_input, mask_output)
 
         i+=1
-        if i>5:
-            break
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Prepares the CAD-PE dataset.")
     parser.add_argument('--main_path', type=str, required=True, help="Path to repository.")
+    parser.add_argument('--patients_n', type=int, required=False, help="Patients limit.")
 
     args = parser.parse_args()
 
     # Using the passed arguments
     main_path = args.main_path
+    patients_n = args.patients_n
 
     cad_pe_original_path = f"{main_path}/data/00_original/CAD-PE"
-    extract_cad_pe(main_path, cad_pe_original_path)
+    extract_cad_pe(main_path, cad_pe_original_path, patients_n)
 
     cad_pe_extracted_path = f"{main_path}/data/01_extracted/CAD-PE"
     preprocess_cad_pe(main_path, cad_pe_extracted_path)
