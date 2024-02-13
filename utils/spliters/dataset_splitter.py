@@ -17,6 +17,7 @@ def split(dataset_dir, output_dir, train_size=0.8):
         for set_name in set_names:
             src_dir = os.path.join(dataset_dir, set_name)
             dest_dir = os.path.join(output_dir, output_subdir, set_name)
+            print(f"Source: {src_dir}\nDestiny: {dest_dir}")
             shutil.copytree(src_dir, dest_dir)
 
     # Creating output directories

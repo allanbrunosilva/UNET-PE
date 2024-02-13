@@ -34,14 +34,14 @@ if __name__ == "__main__":
     tf.random.set_seed(42)
 
     """ Directory for storing files """
-    create_dir(os.path.join(main_path, "data", "06_prediction", dataset_name))
+    create_dir(os.path.join(main_path, "data", "05_prediction", dataset_name))
 
     """ Loading model """
     with CustomObjectScope({'iou': iou, 'dice_coef': dice_coef, 'dice_loss': dice_loss}):
         model = tf.keras.models.load_model(os.path.join(main_path, "models", dataset_name,"model.h5"))
 
     """ Load the dataset """
-    test_x = glob(os.path.join(main_path, "data/03_splited", dataset_name, "test/*/image/*.png"))
+    test_x = glob(os.path.join(main_path, "data/02_splited", dataset_name, "test/*/image/*.png"))
     print(f"Test: {len(test_x)}")
 
     """ Loop over the data """
@@ -62,4 +62,4 @@ if __name__ == "__main__":
         mask = mask * 255
 
         cat_images = np.concatenate([i, mask], axis=1)
-        cv2.imwrite(f"{main_path}/data/06_prediction/{dataset_name}/{name}.png", cat_images)
+        cv2.imwrite(f"{main_path}/data/05_prediction/{dataset_name}/{name}.png", cat_images)

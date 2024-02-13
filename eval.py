@@ -54,15 +54,15 @@ if __name__ == "__main__":
     tf.random.set_seed(42)
 
     """ Directory for storing files """
-    create_dir(os.path.join(main_path, "data", "05_evaluation", dataset_name))
+    create_dir(os.path.join(main_path, "data", "04_evaluation", dataset_name))
 
     """ Loading model """
     with CustomObjectScope({'iou': iou, 'dice_coef': dice_coef, 'dice_loss': dice_loss}):
         model = tf.keras.models.load_model(os.path.join(main_path, "models", dataset_name, "model.h5"))
 
     """ Load the dataset """
-    test_x = sorted(glob(os.path.join(main_path, "data", "04_new_data", dataset_name, "valid", "image", "*")))
-    test_y = sorted(glob(os.path.join(main_path, "data", "04_new_data", dataset_name, "valid", "mask", "*")))
+    test_x = sorted(glob(os.path.join(main_path, "data", "03_new_data", dataset_name, "valid", "image", "*")))
+    test_y = sorted(glob(os.path.join(main_path, "data", "03_new_data", dataset_name, "valid", "mask", "*")))
     print(f"Test: {len(test_x)} - {len(test_y)}")
 
     """ Evaluation and Prediction """
@@ -89,7 +89,7 @@ if __name__ == "__main__":
         y_pred = y_pred.astype(np.int32)
 
         """ Saving the prediction """
-        save_image_path = os.path.join(main_path, "data", "05_evaluation", dataset_name, f"{name}.png")
+        save_image_path = os.path.join(main_path, "data", "04_evaluation", dataset_name, f"{name}.png")
         save_results(image, mask, y_pred, save_image_path)
 
         """ Flatten the array """
