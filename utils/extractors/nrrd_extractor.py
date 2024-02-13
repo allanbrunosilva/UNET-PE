@@ -28,10 +28,10 @@ def extract_and_preprocess(input_nrrd_path, output_folder_path):
         slice_data = data[:, :, i]
         adjusted_slice = nrrd_preprocessor.window_level_adjustment(slice_data, WC, WL)
         
-        # Normaliza e recorta a imagem
+        # Normalize and crop image
         normalized_cropped_slice = nrrd_preprocessor.normalize_and_crop_image(adjusted_slice)
         
-        # Convertendo para uma imagem PIL para salvar
+        # Converting to a PIL image
         image = Image.fromarray((normalized_cropped_slice * 255).astype(np.uint8))
         image = image.convert('L')  # Convert to grayscale
         

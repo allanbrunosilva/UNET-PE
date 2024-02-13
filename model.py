@@ -22,19 +22,18 @@ def encoder_block(input, num_filters):
 
 def decoder_block(input, skip_features, num_filters):
     x = Conv2DTranspose(num_filters, (2, 2), strides=2, padding="same")(input)
-    x = ReLU()(x) # Primeira camada de deconvolução seguida por ReLU
+    x = ReLU()(x) # First deconvolution layer followed by ReLU
     
-    # Verifica se é necessário adicionar padding
+    # Check if padding needs to be added
     if x.shape[1] != skip_features.shape[1] or x.shape[2] != skip_features.shape[2]:
         height_padding = skip_features.shape[1] - x.shape[1]
         width_padding = skip_features.shape[2] - x.shape[2]
         x = ZeroPadding2D(((0, height_padding), (0, width_padding)))(x)
     x = Concatenate()([x, skip_features])
 
-    # Segunda camada de deconvolução seguida por ReLU
+    # Second deconvolution layer followed by ReLU
     x = Conv2DTranspose(num_filters, (3, 3), padding="same")(x)
     x = ReLU()(x)
-    #x = conv_block(x, num_filters)
     return x
 
 def build_unet(input_shape):

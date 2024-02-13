@@ -13,23 +13,6 @@ def create_dir(path):
         os.makedirs(path)
 
 def load_data(path, split=0.8):
-    # """ Load the images and masks """
-    # patients = sorted(glob(os.path.join(path, "*")))
-
-    # """ Split the data """
-    # split_size = int(len(patients) * split)
-    # train, valid = train_test_split(patients, train_size=split_size, random_state=42, shuffle=False)
-
-    # train_x, train_y, valid_x, valid_y = [], [], [], []
-
-    # for patient_path in train:
-    #     train_x.extend(sorted(glob(os.path.join(patient_path, "image", "*.png"))))
-    #     train_y.extend(sorted(glob(os.path.join(patient_path, "mask", "*.png"))))
-
-    # for patient_path in valid:
-    #     valid_x.extend(sorted(glob(os.path.join(patient_path, "image", "*.png"))))
-    #     valid_y.extend(sorted(glob(os.path.join(patient_path, "mask", "*.png"))))
-
     """ Load the images and masks """
     images = sorted(glob(f"{path}/*/image/*.png"))
     masks = sorted(glob(f"{path}/*/mask/*.png"))

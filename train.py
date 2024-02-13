@@ -12,7 +12,7 @@ from tensorflow.keras.metrics import Recall, Precision
 from model import build_unet
 from metrics import dice_loss, dice_coef, iou
 
-# Atualizando as dimensões de entrada para 364x364x5
+# Updating input dimensions to 364x364x5
 H, W, C = 364, 364, 5
 
 def create_dir(path):
@@ -28,7 +28,7 @@ def load_data(path, num_slices=5):
     images = sorted(glob(os.path.join(path, "image", "*.png")))
     masks = sorted(glob(os.path.join(path, "mask", "*.png")))
     x, y = [], []
-    # Garantindo que cada entrada terá cinco fatias vizinhas
+    # Ensuring each entry will have five neighboring slices
     for i in range(num_slices // 2, len(images) - num_slices // 2):
         slices = images[i - num_slices // 2 : i + num_slices // 2 + 1]
         x.append(slices)
@@ -38,7 +38,7 @@ def load_data(path, num_slices=5):
 def read_image(paths):
     images = [cv2.imread(path.decode('utf-8'), cv2.IMREAD_GRAYSCALE) / 255.0 for path in paths]
     images = [img.astype(np.float32) for img in images]
-    x = np.stack(images, axis=-1)  # Empilhando as imagens ao longo do eixo do canal
+    x = np.stack(images, axis=-1)  # Stacking images along the channel axis
     return x
 
 def read_mask(path):
@@ -60,7 +60,6 @@ def tf_parse(x, y):
     y.set_shape([H, W, 1])
     return x, y
 
-# A maioria do restante do código permanece inalterada
 def tf_dataset(x, y, batch=8):
     dataset = tf.data.Dataset.from_tensor_slices((x, y))
     dataset = dataset.map(tf_parse)

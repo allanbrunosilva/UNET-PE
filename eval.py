@@ -12,10 +12,9 @@ import tensorflow as tf
 from tensorflow.keras.utils import CustomObjectScope
 from sklearn.metrics import accuracy_score, f1_score, jaccard_score, precision_score, recall_score
 from metrics import dice_loss, dice_coef, iou
-from train import load_data
 
-H = 512
-W = 512
+H = 364
+W = 364
 
 """ Creating a directory """
 def create_dir(path):
@@ -23,16 +22,15 @@ def create_dir(path):
         os.makedirs(path)
 
 def save_results(image, mask, y_pred, save_image_path):
-    ## i - m - y
     line = np.ones((H, 10, 3)) * 128
 
     """ Mask """
-    mask = np.expand_dims(mask, axis=-1)    ## (512, 512, 1)
-    mask = np.concatenate([mask, mask, mask], axis=-1)  ## (512, 512, 3)
+    mask = np.expand_dims(mask, axis=-1)
+    mask = np.concatenate([mask, mask, mask], axis=-1)
 
     """ Predicted Mask """
-    y_pred = np.expand_dims(y_pred, axis=-1)    ## (512, 512, 1)
-    y_pred = np.concatenate([y_pred, y_pred, y_pred], axis=-1)  ## (512, 512, 3)
+    y_pred = np.expand_dims(y_pred, axis=-1)
+    y_pred = np.concatenate([y_pred, y_pred, y_pred], axis=-1)
     y_pred = y_pred * 255
 
     cat_images = np.concatenate([image, line, mask, line, y_pred], axis=1)

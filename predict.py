@@ -4,13 +4,10 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 import numpy as np
 import cv2
 import argparse
-import pydicom as dicom
-import pandas as pd
 from glob import glob
 from tqdm import tqdm
 import tensorflow as tf
 from tensorflow.keras.utils import CustomObjectScope
-from sklearn.metrics import accuracy_score, f1_score, jaccard_score, precision_score, recall_score
 from metrics import dice_loss, dice_coef, iou
 
 """ Creating a directory """
@@ -49,7 +46,7 @@ if __name__ == "__main__":
         name = os.path.basename(x).split(".")[0]
 
         i = cv2.imread(x, cv2.IMREAD_GRAYSCALE)
-        i = cv2.resize(i, (512, 512))
+        i = cv2.resize(i, (364, 364))
         i = np.expand_dims(i, axis=-1)
         i = i / np.max(i) * 255.0
         x = i / 255.0
